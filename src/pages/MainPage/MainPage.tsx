@@ -1,8 +1,9 @@
 import React, { useState } from 'react';
-import Header from '../components/Header';
-import TreeComponent from '../components/TreeComponent';
-import Description from '../components/Description';
+import Header from '../../components/Header/Header';
+import TreeComponent from '../../components/TreeComponent/TreeComponent';
+import Description from '../../components/Description/Description';
 import { useQuery, gql } from '@apollo/client';
+import './MainPage.css';
 
 const GET_TREE_DATA = gql`
   query MyQuery {
@@ -51,13 +52,13 @@ const MainPage = () => {
   }));
 
   return (
-    <div>
+    <div className="main">
       <Header searchTerm={searchTerm} setSearchTerm={setSearchTerm} />
 
-      <div style={{ display: 'flex', gap: '20px' }}>
+      <main style={{ display: 'flex', gap: '20px' }}>
         <TreeComponent nodes={nodes} searchTerm={searchTerm} onSelectNode={setSelectedNode} />
         <Description selectedNode={selectedNode} />
-      </div>
+      </main>
     </div>
   );
 };

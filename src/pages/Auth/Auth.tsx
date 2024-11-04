@@ -26,7 +26,7 @@ const Auth = () => {
       localStorage.setItem('user', JSON.stringify(user));
 
       // Перенаправление на главный экран
-      navigate('/main');
+      navigate('/mainpage');
     } catch (e) {
       console.error('Ошибка авторизации:', e);
     }

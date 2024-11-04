@@ -1,7 +1,7 @@
 import React from 'react';
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
-import Auth from './pages/Auth';
-import MainPage from './pages/MainPage';
+import Auth from './pages/Auth/Auth';
+import MainPage from './pages/MainPage/MainPage';
 import PrivateRoute from './utils/PrivateRoute';
 
 const App = () => {
@@ -11,7 +11,7 @@ const App = () => {
         <Routes>
           <Route path="/login" element={<Auth />} />
           <Route element={<PrivateRoute />}>
-            <Route path="/main" element={<MainPage />} />
+            <Route path="/mainpage" element={<MainPage />} />
           </Route>
           <Route path="*" element={<Auth />} />
         </Routes>
