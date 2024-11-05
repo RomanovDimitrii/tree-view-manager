@@ -1,0 +1,34 @@
+.description {
+  display: flex;
+  flex-direction: column;
+  margin: 25px 0 0;
+  width: 100%;
+  width: 750px;
+}
+
+.description__title {
+  font-size: 1.25rem;
+  margin: 0;
+}
+
+.description__title:last-of-type {
+  margin-top: 20px;
+  border-bottom: 1px solid rgba(188, 188, 188, 1);
+}
+
+.description__text {
+  height: 75px;
+  width: 100%;
+  border: 1px solid rgba(188, 188, 188, 1);
+  border-radius: 3px;
+}
+
+.description__subtitle {
+  margin: 30px 0 20px;
+  font-weight: 600;
+  font-size: 1rem;
+}
+
+.description__list {
+  list-style-type: none;
+}

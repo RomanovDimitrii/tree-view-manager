@@ -19,13 +19,12 @@
 
 .custom-select {
   background-color: rgba(242, 242, 242, 0.7);
-
   border-radius: 5px;
   font-size: 1rem;
   width: 180px;
-  min-width: 180px;
+  display: flex;
+  align-items: center;
   color: #000;
-
   box-sizing: border-box;
 }
 
@@ -33,9 +32,7 @@
 .custom-select .dropdown-container {
   background-color: rgba(242, 242, 242, 0.7);
   border: none;
-  height: 30px;
   width: 180px;
-  min-width: 180px;
 }
 
 .header__input-wrapper {

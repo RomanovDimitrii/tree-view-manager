@@ -1,10 +1,62 @@
-/* Стили для удаления нумерации и настройки иконок раскрытия */
-.rct-node > label .rct-title {
-  counter-reset: none;
+.tree__block {
+  display: flex;
+  flex-direction: column;
+  width: 35%;
+}
+
+.tree__btn-block {
+  display: flex;
+  column-gap: 10px;
+  margin: 30px 0 10px 20px;
+}
+
+.tree__btn {
+  width: 110px;
+  height: 30px;
+  border: rgba(188, 188, 188, 1) solid 1px;
+  border-radius: 3px;
+  cursor: pointer;
+  background-color: #fff;
+  padding: 0;
+}
+
+.tree__btn:hover {
+  opacity: 50%;
+}
+
+.tree__wrapper {
+  width: 100%;
 }
 
 .expand-icon {
   background: none;
   border: none;
-  color: black; /* или любой другой цвет */
+  color: black;
+}
+
+input[type='checkbox'] {
+  width: 18px;
+  height: 18px;
+  border: rgba(41, 34, 34, 1) solid 2px;
+  margin: 10px 10px 10px;
+}
+
+input[type='checkbox']:checked {
+  accent-color: #fff;
+  width: 18px;
+  height: 18px;
+  border: rgba(41, 34, 34, 1) solid 2px;
+}
+
+.rct-node {
+  list-style-type: none;
+  font-size: 16px;
+  line-height: 20px;
+  margin: 0;
+  margin: 5px 10px 5px;
+}
+
+.expand-icon {
+  width: 20px;
+  height: 20px;
 }

@@ -30,6 +30,7 @@ const Header: React.FC = () => {
       <div className="header__filters">
         <MultiSelect
           options={options}
+          className="custom-select"
           value={assignedFilter}
           onChange={filter => dispatch(setAssignedFilter(filter))}
           labelledBy="Присвоенные"
@@ -39,19 +40,22 @@ const Header: React.FC = () => {
             selectSomeItems:
               assignedFilter.some(opt => opt.value === 'yes') && assignedFilter.length === 1
                 ? 'Присвоенные +1'
-                : 'Присвоенные'
+                : 'Присвоенные',
+            allItemsAreSelected: 'все'
           }}
         />
 
         <MultiSelect
           options={options}
+          className="custom-select"
           value={libraryOptions}
           onChange={setLibraryOptions}
           labelledBy="В библиотеке"
           disableSearch
           hasSelectAll={false}
           overrideStrings={{
-            selectSomeItems: getLabel(libraryOptions, 'В библиотеке')
+            selectSomeItems: getLabel(libraryOptions, 'В библиотеке'),
+            allItemsAreSelected: 'все'
           }}
         />
 

@@ -5,6 +5,8 @@ import { useDispatch, useSelector } from 'react-redux';
 import { RootState, AppDispatch } from '../../app/store';
 import { setChecked, setExpanded } from '../../features/tree/treeSlice';
 import { selectChecked, selectExpanded } from '../../features/tree/selectors';
+
+import 'react-checkbox-tree/lib/react-checkbox-tree.css';
 import './TreeComponent.css';
 
 interface TreeNode {
@@ -84,51 +86,53 @@ const TreeComponent: React.FC<TreeComponentProps> = ({
     }
   };
 
-  const CustomLabel = ({ node }: { node: TreeNode }) => {
-    return (
-      <span
-        onClick={e => {
-          e.stopPropagation();
-          handleNodeClick(node);
-        }}
-        style={{ cursor: 'pointer' }}
-      >
-        {node.label}
-      </span>
-    );
-  };
+  const CustomLabel = ({ node }: { node: TreeNode }) => (
+    <span
+      onClick={e => {
+        e.stopPropagation();
+        handleNodeClick(node);
+      }}
+      style={{ cursor: 'pointer' }}
+    >
+      {node.label}
+    </span>
+  );
 
-  const formatNodesForCheckboxTree = (nodes: TreeNode[]): any[] => {
-    return nodes.map(node => ({
+  const formatNodesForCheckboxTree = (nodes: TreeNode[]): any[] =>
+    nodes.map(node => ({
       ...node,
       label: <CustomLabel node={node} />,
       children: node.children ? formatNodesForCheckboxTree(node.children) : undefined
     }));
-  };
 
   const assignedValues = assignedFilter.map(filter => filter.value);
 
   const filterNodesByAssigned = (nodes: TreeNode[]): TreeNode[] => {
+    const effectiveAssignedValues = assignedValues.length > 0 ? assignedValues : ['yes', 'no'];
+
     return nodes
-      .map(node => ({
-        ...node,
-        children:
+      .map(node => {
+        const isChecked = checked.includes(node.value);
+
+        const filteredChildren =
           node.children && node.children.length > 0
             ? filterNodesByAssigned(node.children)
-            : undefined
-      }))
-      .filter(node => {
-        const isChecked = checked.includes(node.value);
-        if (assignedValues.includes('yes') && assignedValues.includes('no')) {
-          return true;
-        } else if (assignedValues.includes('yes')) {
-          return isChecked;
-        } else if (assignedValues.includes('no')) {
-          return !isChecked;
-        } else {
-          return true;
-        }
-      });
+            : undefined;
+
+        const includeNode =
+          (effectiveAssignedValues.includes('yes') && isChecked) ||
+          (effectiveAssignedValues.includes('no') && !isChecked) ||
+          (effectiveAssignedValues.includes('yes') && effectiveAssignedValues.includes('no')) ||
+          (filteredChildren && filteredChildren.length > 0);
+
+        return includeNode
+          ? {
+              ...node,
+              children: filteredChildren
+            }
+          : null;
+      })
+      .filter(node => node !== null) as TreeNode[];
   };
 
   const filterNodes = (nodes: TreeNode[], term: string): TreeNode[] => {
@@ -145,33 +149,42 @@ const TreeComponent: React.FC<TreeComponentProps> = ({
       );
   };
 
+  console.log('Assigned Values:', assignedValues);
+
   useEffect(() => {
     const updatedNodes = searchTerm ? filterNodes(nodes, searchTerm) : filterNodesByAssigned(nodes);
     setFilteredNodes(updatedNodes);
   }, [nodes, searchTerm, assignedFilter, checked]);
 
   return (
-    <div>
-      <button onClick={expandAllNodes}>Развернуть все</button>
-      <button onClick={collapseAllNodes}>Свернуть все</button>
-
-      <CheckboxTree
-        nodes={formatNodesForCheckboxTree(filteredNodes)}
-        checked={checked}
-        expanded={expanded}
-        onCheck={handleCheck}
-        onExpand={expandedValues => dispatch(setExpanded(expandedValues))}
-        icons={{
-          check: null,
-          uncheck: null,
-          halfCheck: null,
-          expandClose: <FaChevronRight className="expand-icon" />,
-          expandOpen: <FaChevronDown className="expand-icon" />
-        }}
-        showNodeIcon={false}
-        nativeCheckboxes
-      />
-    </div>
+    <section className="tree__block">
+      <div className="tree__btn-block">
+        <button className="tree__btn" onClick={expandAllNodes}>
+          Развернуть все
+        </button>
+        <button className="tree__btn" onClick={collapseAllNodes}>
+          Свернуть все
+        </button>
+      </div>
+      <div className="tree__wrapper">
+        <CheckboxTree
+          nodes={formatNodesForCheckboxTree(filteredNodes)}
+          checked={checked}
+          expanded={expanded}
+          onCheck={handleCheck}
+          onExpand={expandedValues => dispatch(setExpanded(expandedValues))}
+          icons={{
+            check: null,
+            uncheck: null,
+            halfCheck: null,
+            expandClose: <FaChevronRight className="expand-icon" />,
+            expandOpen: <FaChevronDown className="expand-icon" />
+          }}
+          showNodeIcon={false}
+          nativeCheckboxes
+        />
+      </div>
+    </section>
   );
 };
 

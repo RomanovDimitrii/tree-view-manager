@@ -87,7 +87,7 @@ const MainPage: React.FC = () => {
         setAssignedFilter={filter => dispatch(setAssignedFilter(filter))}
       />
 
-      <main style={{ display: 'flex', gap: '20px' }}>
+      <main className="main__columns">
         <TreeComponent
           nodes={nodes}
           searchTerm={searchTerm}
