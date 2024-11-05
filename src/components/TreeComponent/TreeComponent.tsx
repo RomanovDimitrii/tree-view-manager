@@ -1,7 +1,11 @@
-import React, { useState, useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import CheckboxTree from 'react-checkbox-tree';
 import { FaChevronRight, FaChevronDown } from 'react-icons/fa';
-import './TreeComponent.css'; // Подключаем CSS
+import { useDispatch, useSelector } from 'react-redux';
+import { RootState, AppDispatch } from '../../app/store';
+import { setChecked, setExpanded } from '../../features/tree/treeSlice';
+import { selectChecked, selectExpanded } from '../../features/tree/selectors';
+import './TreeComponent.css';
 
 interface TreeNode {
   value: string;
@@ -23,18 +27,19 @@ const TreeComponent: React.FC<TreeComponentProps> = ({
   assignedFilter = [],
   onSelectNode
 }) => {
-  const [checked, setChecked] = useState<string[]>([]);
-  const [expanded, setExpanded] = useState<string[]>([]);
+  const dispatch: AppDispatch = useDispatch();
+  const checked = useSelector((state: RootState) => selectChecked(state));
+  const expanded = useSelector((state: RootState) => selectExpanded(state));
   const [filteredNodes, setFilteredNodes] = useState<TreeNode[]>(nodes);
   const [clickTimeout, setClickTimeout] = useState<number | null>(null);
 
   const expandAllNodes = () => {
     const allNodeValues = getAllNodeValues(nodes);
-    setExpanded(allNodeValues);
+    dispatch(setExpanded(allNodeValues));
   };
 
   const collapseAllNodes = () => {
-    setExpanded([]);
+    dispatch(setExpanded([]));
   };
 
   const getAllNodeValues = (nodes: TreeNode[]): string[] => {
@@ -48,7 +53,7 @@ const TreeComponent: React.FC<TreeComponentProps> = ({
   };
 
   const handleCheck = (checkedValues: string[]) => {
-    setChecked(checkedValues);
+    dispatch(setChecked(checkedValues));
   };
 
   const handleSingleClick = (node: TreeNode) => {
@@ -56,10 +61,12 @@ const TreeComponent: React.FC<TreeComponentProps> = ({
   };
 
   const handleDoubleClick = (node: TreeNode) => {
-    setExpanded(prevExpanded =>
-      prevExpanded.includes(node.value)
-        ? prevExpanded.filter(id => id !== node.value)
-        : [...prevExpanded, node.value]
+    dispatch(
+      setExpanded(
+        expanded.includes(node.value)
+          ? expanded.filter(id => id !== node.value)
+          : [...expanded, node.value]
+      )
     );
   };
 
@@ -153,7 +160,7 @@ const TreeComponent: React.FC<TreeComponentProps> = ({
         checked={checked}
         expanded={expanded}
         onCheck={handleCheck}
-        onExpand={setExpanded}
+        onExpand={expandedValues => dispatch(setExpanded(expandedValues))}
         icons={{
           check: null,
           uncheck: null,

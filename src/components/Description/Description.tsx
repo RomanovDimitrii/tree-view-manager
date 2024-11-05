@@ -1,10 +1,11 @@
 import React from 'react';
+import { useSelector } from 'react-redux';
+import { RootState } from '../../app/store';
+import { selectSelectedNode } from '../../features/tree/selectors';
 
-interface DescriptionProps {
-  selectedNode: { label: string; description: string; children?: { label: string }[] } | null;
-}
+const Description: React.FC = () => {
+  const selectedNode = useSelector((state: RootState) => selectSelectedNode(state));
 
-const Description: React.FC<DescriptionProps> = ({ selectedNode }) => {
   return (
     <div>
       {selectedNode ? (
@@ -18,7 +19,9 @@ const Description: React.FC<DescriptionProps> = ({ selectedNode }) => {
           </p>
           <h4>Дочерние узлы:</h4>
           <ul>
-            {selectedNode.children?.map((child, index) => <li key={index}>{child.label}</li>) || (
+            {selectedNode.children?.length ? (
+              selectedNode.children.map((child, index) => <li key={index}>{child.label}</li>)
+            ) : (
               <li>Нет дочерних узлов</li>
             )}
           </ul>

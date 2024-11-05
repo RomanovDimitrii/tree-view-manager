@@ -1,20 +1,15 @@
 import React, { useState } from 'react';
 import { MultiSelect } from 'react-multi-select-component';
+import { useDispatch, useSelector } from 'react-redux';
+import { RootState, AppDispatch } from '../../app/store';
+import { setSearchTerm, setAssignedFilter } from '../../features/tree/treeSlice';
+import { selectSearchTerm, selectAssignedFilter } from '../../features/tree/selectors';
 import './Header.css';
 
-interface HeaderProps {
-  searchTerm: string;
-  setSearchTerm: (term: string) => void;
-  assignedFilter: { label: string; value: string }[];
-  setAssignedFilter: (filter: { label: string; value: string }[]) => void;
-}
-
-const Header: React.FC<HeaderProps> = ({
-  searchTerm,
-  setSearchTerm,
-  assignedFilter,
-  setAssignedFilter
-}) => {
+const Header: React.FC = () => {
+  const dispatch: AppDispatch = useDispatch();
+  const searchTerm = useSelector((state: RootState) => selectSearchTerm(state));
+  const assignedFilter = useSelector((state: RootState) => selectAssignedFilter(state));
   const [libraryOptions, setLibraryOptions] = useState([]);
 
   const options = [
@@ -36,7 +31,7 @@ const Header: React.FC<HeaderProps> = ({
         <MultiSelect
           options={options}
           value={assignedFilter}
-          onChange={setAssignedFilter}
+          onChange={filter => dispatch(setAssignedFilter(filter))}
           labelledBy="Присвоенные"
           disableSearch
           hasSelectAll={false}
@@ -67,7 +62,7 @@ const Header: React.FC<HeaderProps> = ({
             type="text"
             placeholder="Найти классы"
             value={searchTerm}
-            onChange={e => setSearchTerm(e.target.value)}
+            onChange={e => dispatch(setSearchTerm(e.target.value))}
           />
         </div>
       </div>
