@@ -5,10 +5,16 @@ import './Header.css';
 interface HeaderProps {
   searchTerm: string;
   setSearchTerm: (term: string) => void;
+  assignedFilter: { label: string; value: string }[];
+  setAssignedFilter: (filter: { label: string; value: string }[]) => void;
 }
 
-const Header: React.FC<HeaderProps> = ({ searchTerm, setSearchTerm }) => {
-  const [assignedOptions, setAssignedOptions] = useState([]);
+const Header: React.FC<HeaderProps> = ({
+  searchTerm,
+  setSearchTerm,
+  assignedFilter,
+  setAssignedFilter
+}) => {
   const [libraryOptions, setLibraryOptions] = useState([]);
 
   const options = [
@@ -29,13 +35,16 @@ const Header: React.FC<HeaderProps> = ({ searchTerm, setSearchTerm }) => {
       <div className="header__filters">
         <MultiSelect
           options={options}
-          value={assignedOptions}
-          onChange={setAssignedOptions}
+          value={assignedFilter}
+          onChange={setAssignedFilter}
           labelledBy="Присвоенные"
           disableSearch
           hasSelectAll={false}
           overrideStrings={{
-            selectSomeItems: getLabel(assignedOptions, 'Присвоенные')
+            selectSomeItems:
+              assignedFilter.some(opt => opt.value === 'yes') && assignedFilter.length === 1
+                ? 'Присвоенные +1'
+                : 'Присвоенные'
           }}
         />
 
@@ -51,12 +60,16 @@ const Header: React.FC<HeaderProps> = ({ searchTerm, setSearchTerm }) => {
           }}
         />
 
-        <input
-          type="text"
-          placeholder="Поиск..."
-          value={searchTerm}
-          onChange={e => setSearchTerm(e.target.value)}
-        />
+        <div className="header__input-wrapper">
+          <img src="../../images/search_icon.svg" alt="Search" className="header__search-icon" />
+          <input
+            className="header__input"
+            type="text"
+            placeholder="Найти классы"
+            value={searchTerm}
+            onChange={e => setSearchTerm(e.target.value)}
+          />
+        </div>
       </div>
     </header>
   );

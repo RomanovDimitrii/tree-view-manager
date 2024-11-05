@@ -32,6 +32,8 @@ const MainPage = () => {
   const [searchTerm, setSearchTerm] = useState('');
   const [selectedNode, setSelectedNode] = useState(null);
 
+  const [assignedFilter, setAssignedFilter] = useState([]);
+
   if (loading) return <p>Loading...</p>;
   if (error) return <p>Error loading data</p>;
 
@@ -53,10 +55,20 @@ const MainPage = () => {
 
   return (
     <div className="main">
-      <Header searchTerm={searchTerm} setSearchTerm={setSearchTerm} />
+      <Header
+        searchTerm={searchTerm}
+        setSearchTerm={setSearchTerm}
+        assignedFilter={assignedFilter}
+        setAssignedFilter={setAssignedFilter}
+      />
 
       <main style={{ display: 'flex', gap: '20px' }}>
-        <TreeComponent nodes={nodes} searchTerm={searchTerm} onSelectNode={setSelectedNode} />
+        <TreeComponent
+          nodes={nodes}
+          searchTerm={searchTerm}
+          assignedFilter={assignedFilter}
+          onSelectNode={setSelectedNode}
+        />
         <Description selectedNode={selectedNode} />
       </main>
     </div>

@@ -1,0 +1,10 @@
+/* Стили для удаления нумерации и настройки иконок раскрытия */
+.rct-node > label .rct-title {
+  counter-reset: none;
+}
+
+.expand-icon {
+  background: none;
+  border: none;
+  color: black; /* или любой другой цвет */
+}
