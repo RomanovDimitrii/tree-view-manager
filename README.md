@@ -1,14 +1,8 @@
-# Проект Calculator
-
-**Ссылка на сайт:** 
-https://romanovdimitrii.github.io/calculator/
+# Проект Tree-view-manager
 
 **Реализован функционал:**
 
-- вычисляет значения, введенные в калькулятор c клавиатуры и с кнопок виртуальной клавиатуры
-- тесты (проверка начального значения, корректности вычисления выражения, стирания последних символов при нажатии backspace, проверка кнопок)
-
-**Инструменты и стек:** <pre> React TypeScript JavaScript Vite Vitest Html Css </pre>
+**Инструменты и стек:** <pre> React TypeScript ReduxToolkit JavaScript Vite Html Css </pre>
 
 **Установка**
 
@@ -16,7 +10,7 @@ https://romanovdimitrii.github.io/calculator/
 
 2. Клонировать репозиторий:
 
-   git clone git@github.com:RomanovDimitrii/calculator.git
+   git clone git@github.com:RomanovDimitrii/tree-view-manager.git
 
 3. Установить зависимости
 
@@ -29,7 +23,3 @@ https://romanovdimitrii.github.io/calculator/
    npm run dev
 
    Приложение будет запущено на http://localhost:5173/
-
-2. Запустить тесты:
-
-   npm run vitest
