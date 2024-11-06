@@ -24,7 +24,6 @@ const Auth = () => {
     e.preventDefault();
     let valid = true;
 
-    // Проверка email
     if (!email) {
       setEmailError('Поле Email обязательно');
       valid = false;
@@ -43,7 +42,6 @@ const Auth = () => {
       setPasswordError('');
     }
 
-    // Если форма невалидна, не отправляем запрос
     if (!valid) return;
 
     try {
